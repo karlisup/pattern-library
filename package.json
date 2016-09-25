@@ -1,5 +1,15 @@
 {
-  "dependencies": {
-    "gulp": "^3.9.1"
+  "devDependencies": {
+    "autoprefixer": "^5.2.0",
+    "browser-sync": "^2.9.8",
+    "component-library-core": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-postcss": "^6.0.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-twig": "^0.5.0",
+    "gulp-util": "^3.0.6",
+    "gulp-watch": "^4.3.5"
   }
 }

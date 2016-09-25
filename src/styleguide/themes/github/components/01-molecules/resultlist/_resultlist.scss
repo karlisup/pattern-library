@@ -1,0 +1,34 @@
+.cl-resultlist {
+	&__list {
+
+	}
+		&__link {
+			display: block;
+			padding: 6px 6px 6px 30px;
+			border-top: 1px solid #e5e5e5;
+			&:hover {
+				.cl-resultlist__text {
+					text-decoration: underline;
+				}
+			}
+			&:focus {
+				background-color: #fff9ea;
+			}
+		}
+		&__text {
+			@include ellipsis();
+			max-width: 100%;
+			display: inline-block;
+
+			font-size: 14px;
+			font-weight: 600;
+			line-height: 1.5;
+			color: #4078c0;
+			text-decoration: none;
+			vertical-align: top;
+
+		}
+		&__highlighted {
+			text-decoration: underline;
+		}
+}
