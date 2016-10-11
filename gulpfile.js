@@ -1,6 +1,6 @@
 // setting general settings
-var src = '/pattern-library/'
-var dest = '/documentation/'
+var src = './pattern-library/'
+var dest = './documentation/'
 var tmplEngine = '.twig'
 
 // gulp general modules
@@ -29,6 +29,7 @@ gulp.task('styleguide', function (done) {
       template: tmplEngine
     }
   })
+  done() // important for watch task
 })
 
 // STYLE
@@ -99,7 +100,7 @@ gulp.task('style:documentation', function (done) {
 ------------------------------------------------- */
 
 gulp.task('watch', function (done) {
-  gulp.watch(src + '/components/**/*.{json,md,markdown,twig}', ['styleguide']) //, browserSync.reload)
+  gulp.watch([src + '/components/**/*.{json,md,twig}'], ['styleguide']).on('change', browserSync.reload)
   gulp.watch([src + '/components/**/*.scss', src + '/style/**/*.scss'], ['style'])
   gulp.watch(src + '/components/**/*.js', ['javascript'])
 })
