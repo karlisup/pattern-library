@@ -1,42 +1,32 @@
 // setting general settings
 var src = './pattern-library/'
 var dest = './documentation/'
-var tmplEngine = '.twig'
 
 // gulp general modules
 var gulp = require('gulp')
 var sass = require('gulp-sass')
 var postcss = require('gulp-postcss')
+var concat = require('gulp-concat')
 var autoprefixer = require('autoprefixer')
 var browserSync = require('browser-sync').create()
-var concat = require('gulp-concat')
-var sourcemaps = require('gulp-sourcemaps')
-var styleguide = require('component-library-core')
+var chewingum = require('chewingum')
 
-/* -------------------------------------
-  Gulp tasks
-------------------------------------- */
 
-// STYLEGUIDE
-gulp.task('styleguide', function (done) {
-  styleguide({
+// Pattern Library
+// For each template file (e.g. breadcrumbs.twig) will build a documentation.
+gulp.task('chewingum', function () {
+  chewingum({
     location: {
-      src: src + '/components/',
-      dest: dest + '/components/',
-      styleguide: src + '/styleguide/'
-    },
-    extensions: {
-      template: tmplEngine
+      src: src,
+      dest: dest
     }
   })
-  done() // important for watch task
 })
 
-// STYLE
+// Style
+// Will combine and minify all component styles
 gulp.task('style', function (done) {
-  var processors = [
-    autoprefixer({browsers: ['last 2 versions', 'ie >= 9', 'and_chr >= 2.3']})
-  ]
+  var processors = [autoprefixer({browsers: ['last 2 versions', 'ie >= 9', 'and_chr >= 2.3']})]
   return gulp.src(src + '/style/style.scss')
     .pipe(sass({
       sourceComments: true
@@ -46,17 +36,17 @@ gulp.task('style', function (done) {
     .pipe(browserSync.stream())
 })
 
-// JAVASCRIPT
+// JavaScript
+// Will combine and minify all component JavaScript files.
 gulp.task('javascript', function (done) {
-  return gulp.src(src + '/components/**/*.js')
-    .pipe(sourcemaps.init())
-      .pipe(concat('components.js'))
-    .pipe(sourcemaps.write())
+  return gulp.src(src + '/**/*.js')
+    .pipe(concat('components.js'))
     .pipe(gulp.dest(dest + '/assets/js/'))
 })
 
-// SERVER
-gulp.task('browser-sync', function () {
+// Server
+// Will build server for patter-library
+gulp.task('server', function () {
   browserSync.init({
     server: {
       baseDir: dest
@@ -67,43 +57,14 @@ gulp.task('browser-sync', function () {
   })
 })
 
-/* ----------------------------------------------
-  STYLE & JAVASCRIPT generation for Documentation
-------------------------------------------------- */
-// generate documentation javascript on gulp:default
-gulp.task('javascript:documentation', function (done) {
-  return gulp.src([
-    src + '/styleguide/js/*.js', // vendor
-    src + '/styleguide/themes/github/components/**/*.js' // theme related js
-  ])
-    .pipe(sourcemaps.init())
-      .pipe(concat('styleguide.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(dest + '/assets/js/component-library/'))
-})
-
-// generate documantation style on gulp:default
-gulp.task('style:documentation', function (done) {
-  var processors = [
-    autoprefixer({browsers: ['last 2 versions', 'ie >= 9', 'and_chr >= 2.3']})
-  ]
-  return gulp.src(src + '/styleguide/style/styleguide.scss')
-    .pipe(sass({
-      sourceComments: true
-    }).on('error', sass.logError))
-    .pipe(postcss(processors))
-    .pipe(gulp.dest(dest + '/assets/css/'))
-})
-
-/* ----------------------------------------------
-  WATCH
-------------------------------------------------- */
+// Watch
 
 gulp.task('watch', function (done) {
-  gulp.watch([src + '/components/**/*.{json,md,twig}'], ['styleguide']).on('change', browserSync.reload)
-  gulp.watch([src + '/components/**/*.scss', src + '/style/**/*.scss'], ['style'])
-  gulp.watch(src + '/components/**/*.js', ['javascript'])
+  //gulp.watch([src + '/components/**/*.{json,md,twig}'], ['styleguide']).on('change', browserSync.reload)
+  gulp.watch([src + '/**/*.scss', src + '/style/**/*.scss'], ['style'])
+  gulp.watch(src + '/**/*.js', ['javascript'])
+  gulp.watch(src + '/**/*.twig', ['chewingum'])
 })
 
 // DEFAULT
-gulp.task('default', ['style:documentation', 'javascript:documentation', 'watch', 'styleguide', 'style', 'browser-sync'])
+gulp.task('default', ['chewingum', 'style', 'javascript', 'server', 'watch'])
