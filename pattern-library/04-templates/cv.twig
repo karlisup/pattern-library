@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{{ fullName }} CV</title>
+	<meta content="telephone=no" name="format-detection">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- style -->
+	<link rel="stylesheet" type="text/css" href="{{root}}assets/style.css">
+</head>
+<body>
+  <div>
+    <header>
+      {% include '00-atoms/title/title.twig' with {'tag': 'h1', 'type': 'canon', 'title': 'Jane Doe'} %}
+      {% include '00-atoms/title/title.twig' with {'type': 'doublePica', 'title': 'photographer'} %}
+    </header>
+    <footer>
+      {% include '00-atoms/title/title.twig' with {'type': 'doublePica', 'title': 'get in touch'} %}
+      {% set iconList = [
+            {
+              'icon': 'some url',
+              'title': '+371 26695559',
+              'link': 'tel:0037126695559'
+            },
+            {
+              'icon': 'some url',
+              'title': '@karlisup',
+              'link': 'https://twitter.com/karlisup'
+            },
+            {
+              'icon': 'some url',
+              'title': '/karlisup',
+              'link': 'https://facebook.com/karlisup'
+            },
+            {
+              'icon': 'some url',
+              'title': 'kalrisup',
+              'link': 'https://codepen.com/karlisup'
+            }
+          ] %}
+      {% include '00-atoms/iconList/iconList.twig' with iconList %}
+      abc abc
+    </footer>
+  </div>
+  <div>
+  
+  </div>
+</body>
+</html>
