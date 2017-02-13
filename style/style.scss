@@ -1,0 +1,22 @@
+// variables, resets, function, etc.
+// (something that is not a pattern)
+@import 'reset';
+@import 'mixins';
+@import 'fonts';
+
+// -------------------------------------
+//  Pattern
+// -------------------------------------
+
+// Pseudo Atomic design
+// ATOMS
+@import 'pattern-library/00-atoms/title/title';
+
+// MOLECULES
+// @import '../components/01-molecules/04-forms/search/search';
+
+// ORGANISMS 
+// @import '../components/02-organisms/00-global/topbar/topbar';
+
+// TEMPLATES
+@import 'pattern-library/04-templates/cv/cv';
